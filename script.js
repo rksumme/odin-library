@@ -27,6 +27,13 @@ const myLibrary = [
         read: false,
         id: crypto.randomUUID()
     },
+    {
+        name: "My book that has a really really long title for no reason",
+        author: "Me",
+        pages: "17",
+        read: true,
+        id: crypto.randomUUID()
+    },
 ];
 
 function Book(name, author, pages, read) {
