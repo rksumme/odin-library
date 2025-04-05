@@ -27,13 +27,6 @@ const myLibrary = [
         read: false,
         id: crypto.randomUUID()
     },
-    {
-        name: "My book that has a really really long title for no reason",
-        author: "Me",
-        pages: "17",
-        read: true,
-        id: crypto.randomUUID()
-    },
 ];
 
 function Book(name, author, pages, read) {
@@ -67,6 +60,7 @@ function addBookToTable(book) {
 
     const deleteElement = document.createElement('button');
     deleteElement.textContent = "Delete";
+    deleteElement.classList.add('delete');
     deleteElement.addEventListener('click', () => deleteBook(book.id));
 
     const statusBtn = document.createElement('button');
@@ -109,7 +103,26 @@ function displayBooks() {
     });
 }
 
+function handleFormSubmission(event) {
+    event.preventDefault();
+
+    const bookName = document.getElementById('title').value.trim();
+    const bookAuthor = document.getElementById('author').value.trim();
+    const bookPages = parseInt(document.getElementById('pages').value);
+    const bookRead = document.getElementById('read').checked;
+
+    addBookToLibrary(bookName, bookAuthor, bookPages, bookRead);
+
+    displayBooks();
+
+    document.getElementById('new-book-form').reset();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     displayBooks();
 
+    const bookForm = document.getElementById('new-book-form');
+    if (bookForm) {
+        bookForm.addEventListener('submit', handleFormSubmission)
+    }
 })
