@@ -65,21 +65,37 @@ function addBookToTable(book) {
     const pagesElement = document.createElement('p');
     pagesElement.textContent = `${book.pages} pages`
 
+    const deleteElement = document.createElement('button');
+    deleteElement.textContent = "Delete";
+    deleteElement.addEventListener('click', () => deleteBook(book.id));
+
     const statusBtn = document.createElement('button');
     statusBtn.textContent = book.read ? 'Read' : 'Not Read';
     statusBtn.classList.add(book.read ? 'read-status' : 'not-read-status', 'status-btn');
     statusBtn.addEventListener('click', () => toggleReadStatus(book.id));
 
-    card.append(titleElement, authorElement, pagesElement, statusBtn);
+    card.append(titleElement, authorElement, pagesElement, statusBtn, deleteElement);
 
     return card;
 }
 
 function toggleReadStatus(id) {
-    const bookIndex = myLibrary.findIndex(book => book.id === id);
+    let bookIndex = myLibrary.findIndex(book => book.id === id);
     if (bookIndex !== -1) {
         myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
         displayBooks();
+    }
+}
+
+function deleteBook(id) {
+    const confirmDelete = confirm("Are you sure?");
+
+    if (confirmDelete) {
+        bookIndex = myLibrary.findIndex(book => book.id === id);
+        if (bookIndex !== -1) {
+            myLibrary.splice(bookIndex, 1);
+            displayBooks();
+    }
     }
 }
 

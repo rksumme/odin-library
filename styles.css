@@ -144,3 +144,11 @@ input {
     background-color: var(--lighter-accent-clr);
     cursor: pointer;
 }
+
+.book-card > .delete {
+    background-color: var(--text-color);
+    margin: 5px 0;
+    height: 15px;
+    width: 50px;
+    font-size: 10px;
+}
