@@ -1,3 +1,4 @@
+// Initialize Object to hold books
 const myLibrary = [
     {
         name: "The Hobbit",
@@ -29,6 +30,7 @@ const myLibrary = [
     },
 ];
 
+// Organize keys into Object items
 function Book(name, author, pages, read) {
     this.name = name;
     this.author = author;
@@ -37,13 +39,14 @@ function Book(name, author, pages, read) {
     this.id = crypto.randomUUID();
 }
 
-
+// Add a new item to the existing Object
 function addBookToLibrary(name, author, pages, read) {
     const newBook = new Book(name, author, pages, read);
     myLibrary.push(newBook);
     return newBook;
 }
 
+// Organize the way the items are displayed on the webpage
 function addBookToTable(book) {
     const card = document.createElement('div');
     card.classList.add('book-card');
@@ -58,29 +61,38 @@ function addBookToTable(book) {
     const pagesElement = document.createElement('p');
     pagesElement.textContent = `${book.pages} pages`
 
+    //  Create a delete button that removes an item from the Object
     const deleteElement = document.createElement('button');
     deleteElement.textContent = "Delete";
     deleteElement.classList.add('delete');
     deleteElement.addEventListener('click', () => deleteBook(book.id));
 
+    // Create a read status button that changes when clicked
     const statusBtn = document.createElement('button');
     statusBtn.textContent = book.read ? 'Read' : 'Not Read';
     statusBtn.classList.add(book.read ? 'read-status' : 'not-read-status', 'status-btn');
     statusBtn.addEventListener('click', () => toggleReadStatus(book.id));
 
+    // Create the card containing the above elements
     card.append(titleElement, authorElement, pagesElement, statusBtn, deleteElement);
 
     return card;
 }
 
+// Function that changes the read status of a book when called
 function toggleReadStatus(id) {
+    // Identifies book by unique ID
     let bookIndex = myLibrary.findIndex(book => book.id === id);
+    // If book exists
     if (bookIndex !== -1) {
+        // Changes read value to the opposite of its current state
         myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
+        // Refresh the display
         displayBooks();
     }
 }
 
+// Deletes an item from the Object when called using unique ID
 function deleteBook(id) {
     const confirmDelete = confirm("Are you sure?");
 
@@ -93,8 +105,10 @@ function deleteBook(id) {
     }
 }
 
+// Refreshes the display and shows each item in the Object as a card
 function displayBooks() {
     const pageBody = document.getElementById('library-container');
+    // Sets pageBody to only display what is appended to it
     pageBody.innerHTML = '';
 
     myLibrary.forEach(book => {
@@ -103,6 +117,7 @@ function displayBooks() {
     });
 }
 
+// Accepts input from a form and stores them as variables
 function handleFormSubmission(event) {
     event.preventDefault();
 
@@ -111,16 +126,21 @@ function handleFormSubmission(event) {
     const bookPages = parseInt(document.getElementById('pages').value);
     const bookRead = document.getElementById('read').checked;
 
+    // Adds item to Object using form inputs
     addBookToLibrary(bookName, bookAuthor, bookPages, bookRead);
 
+    // Refreshes display
     displayBooks();
 
+    // Resets input boxes in form
     document.getElementById('new-book-form').reset();
 }
 
+// Initializes display on load
 document.addEventListener('DOMContentLoaded', function() {
     displayBooks();
 
+    // Initializes new card when submit button is clicked
     const bookForm = document.getElementById('new-book-form');
     if (bookForm) {
         bookForm.addEventListener('submit', handleFormSubmission)
